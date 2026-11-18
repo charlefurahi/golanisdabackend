@@ -11,6 +11,17 @@ class Ministry(models.Model):
         blank=True,
         related_name='ministries_led'
     )
+    # A sub-ministry (e.g. "Youth Choir") belongs to a major ministry (e.g. "Youth").
+    # SET_NULL so deleting a major ministry doesn't delete its sub-ministries —
+    # they just become top-level, matching how `leader` is handled above.
+    parent = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='sub_ministries',
+        help_text='Leave blank for a major ministry. Set this to nest it under another ministry.',
+    )
     poster_image = models.ImageField(upload_to='ministries/posters/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

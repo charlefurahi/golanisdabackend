@@ -1,0 +1,39 @@
+databases:
+  - name: golanisda-db
+    databaseName: golanisda
+    user: golanisda
+    plan: basic-256mb
+
+services:
+  - type: web
+    name: golanisdabackend
+    runtime: python
+    plan: starter
+    disk:
+      name: golanisda-uploads
+      mountPath: /var/data
+      sizeGB: 1
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --no-input
+    startCommand: python manage.py migrate && gunicorn golanisdabackend.wsgi:application
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: golanisda-db
+          property: connectionString
+      - key: ALLOWED_HOSTS
+        value: .onrender.com,localhost,127.0.0.1
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://sdachurch-golani.vercel.app
+      - key: CSRF_TRUSTED_ORIGINS
+        value: https://sdachurch-golani.vercel.app
+      - key: FRONTEND_URL
+        value: https://sdachurch-golani.vercel.app
+      - key: MEDIA_ROOT
+        value: /var/data/media

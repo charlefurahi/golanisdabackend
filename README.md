@@ -91,6 +91,31 @@ The API is served at `http://127.0.0.1:8000/api/v1/`, admin at `/admin/`.
 Password-reset emails print to the console in dev (no SMTP configured) — this
 is expected, not a bug.
 
+## Deploying to Render with the Vercel frontend
+
+The repository includes a `render.yaml` Blueprint for the Django web service,
+PostgreSQL database, and persistent media disk. In Render, create a Blueprint
+from this repository and apply the generated configuration. The service runs
+database migrations when it starts. Its health check uses `/`.
+
+After Render creates the service, copy its public URL and set this environment
+variable in the Vercel project for `sdachurch-golani.vercel.app`:
+
+```text
+VITE_API_BASE_URL=https://<your-render-service>.onrender.com/api/v1
+```
+
+Redeploy the Vercel frontend after saving the variable. The backend's
+`CORS_ALLOWED_ORIGINS`, `CSRF_TRUSTED_ORIGINS`, and `FRONTEND_URL` are set in
+the Blueprint for `https://sdachurch-golani.vercel.app`. Add any other frontend
+domains as comma-separated origins in the corresponding Render environment
+variables.
+
+Uploaded media is stored on the Blueprint's persistent disk and served under
+`/media/`. Email remains on Django's console backend until SMTP settings are
+configured. Donation verification is still a placeholder and does not confirm
+payments with a provider.
+
 ## Full endpoint list
 
 See `golanisdabackend/urls.py` and each app's `urls.py` for the definitive

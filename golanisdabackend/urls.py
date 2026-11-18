@@ -24,7 +24,8 @@ urlpatterns = [
     path('api/v1/sermons/', include('apps.sermons.urls')),
 ]
 
-# Serving Media and Static Files (Essential for Localhost Images)
+# User-uploaded files live on Render's persistent disk. Static assets are served
+# by WhiteNoise in production; Django serves them directly during development.
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

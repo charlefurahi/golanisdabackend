@@ -124,7 +124,7 @@ CORS_ALLOWED_ORIGINS = [
     for origin in os.environ.get(
         'CORS_ALLOWED_ORIGINS',
         'http://localhost:5173,http://127.0.0.1:5173,https://sdachurch-golani.vercel.app,https://sdachurch-golani-git-main-charlefurahis-projects.vercel.app',
-    ).split(',') + ['https://sdachurch-golani-git-main-charlefurahis-projects.vercel.app']
+    ).split(',') + ['https://sdachurch-golani-git-main-charlefurahis-projects.vercel.app', 'https://sdachurch-golani.vercel.app']
     if origin.strip()
 ]
 CSRF_TRUSTED_ORIGINS = [
@@ -132,7 +132,7 @@ CSRF_TRUSTED_ORIGINS = [
     for origin in os.environ.get(
         'CSRF_TRUSTED_ORIGINS',
         'https://sdachurch-golani.vercel.app,https://sdachurch-golani-git-main-charlefurahis-projects.vercel.app',
-    ).split(',') + ['https://sdachurch-golani-git-main-charlefurahis-projects.vercel.app']
+    ).split(',') + ['https://sdachurch-golani-git-main-charlefurahis-projects.vercel.app', 'https://sdachurch-golani.vercel.app']
     if origin.strip()
 ]
 

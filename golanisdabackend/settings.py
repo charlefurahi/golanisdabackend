@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-golanisdabackend-secret-key')
 
-DEBUG = os.environ.get('DEBUG', 'True').lower() in {'1', 'true', 'yes'}
+DEBUG = os.environ.get('DEBUG', 'False').lower() in {'1', 'true', 'yes'}
 
 ALLOWED_HOSTS = [
     host.strip()
@@ -123,16 +123,16 @@ CORS_ALLOWED_ORIGINS = [
     origin.strip().rstrip('/')
     for origin in os.environ.get(
         'CORS_ALLOWED_ORIGINS',
-        'http://localhost:5173,http://127.0.0.1:5173,https://sdachurch-golani.vercel.app',
-    ).split(',')
+        'http://localhost:5173,http://127.0.0.1:5173,https://sdachurch-golani.vercel.app,https://sdachurch-golani-git-main-charlefurahis-projects.vercel.app',
+    ).split(',') + ['https://sdachurch-golani-git-main-charlefurahis-projects.vercel.app']
     if origin.strip()
 ]
 CSRF_TRUSTED_ORIGINS = [
     origin.strip().rstrip('/')
     for origin in os.environ.get(
         'CSRF_TRUSTED_ORIGINS',
-        'https://sdachurch-golani.vercel.app',
-    ).split(',')
+        'https://sdachurch-golani.vercel.app,https://sdachurch-golani-git-main-charlefurahis-projects.vercel.app',
+    ).split(',') + ['https://sdachurch-golani-git-main-charlefurahis-projects.vercel.app']
     if origin.strip()
 ]
 
@@ -143,7 +143,7 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
-FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'https://sdachurch-golani-git-main-charlefurahis-projects.vercel.app')
 
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'no-reply@golanisda.org')
